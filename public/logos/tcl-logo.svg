@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 700 700"
+   version="1.1"
+   id="svg14"
+   sodipodi:docname="tcl-logo.svg"
+   width="700"
+   height="700"
+   inkscape:version="0.92.1 r15371"
+   inkscape:export-filename="C:\Users\alex\sites\tcl-logo-0.png"
+   inkscape:export-xdpi="561.73712"
+   inkscape:export-ydpi="561.73712">
+  <metadata
+     id="metadata18">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Group 5</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1600"
+     inkscape:window-height="838"
+     id="namedview16"
+     showgrid="false"
+     inkscape:zoom="0.21354167"
+     inkscape:cx="533.35416"
+     inkscape:cy="171.13468"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg14" />
+  <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+  <title
+     id="title2">Group 5</title>
+  <desc
+     id="desc4">Created with Sketch.</desc>
+  <defs
+     id="defs6">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath124">
+      <path
+         d="M 21,21 H 440.528 V 616.276 H 21 Z"
+         id="path122"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath108">
+      <path
+         d="M 21,21 H 440.528 V 616.276 H 21 Z"
+         id="path106"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath8854">
+      <path
+         d="M 0,0 H 461.528 V 637.276 H 0 Z"
+         id="path8852"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath124-0">
+      <path
+         d="M 21,21 H 440.528 V 616.276 H 21 Z"
+         id="path122-8"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath108-1">
+      <path
+         d="M 21,21 H 440.528 V 616.276 H 21 Z"
+         id="path106-6"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+  </defs>
+  <g
+     id="Page-1"
+     style="fill:#e21834;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1"
+     transform="matrix(8.4973655,0,0,8.4973655,95.12758,267.26053)"
+     inkscape:export-filename="C:\Users\alex\sites\tcl-logo-3.png"
+     inkscape:export-xdpi="131.83066"
+     inkscape:export-ydpi="131.83066">
+    <g
+       id="居中排版-半透明状态-白字"
+       transform="translate(-691,-12)"
+       style="fill:#e21834;fill-opacity:1">
+      <g
+         id="Group-5"
+         transform="translate(691,12)"
+         style="fill:#e21834;fill-opacity:1">
+        <polygon
+           id="Fill-1"
+           points="19.685992,1.0223823 0,1.0223823 0,6.1071468 6.8042402,6.1071468 6.8042402,18.705485 12.89247,18.705485 12.89247,6.1071468 19.685992,6.1071468 "
+           style="fill:#e21834;fill-opacity:1" />
+        <path
+           d="m 31.609705,15.061718 c -1.413799,0 -2.47388,-0.416621 -3.377467,-1.285319 C 27.35759,12.934294 26.717683,11.627922 26.717683,9.8705817 V 9.6002216 c 0,-1.7540166 0.639907,-3.0692521 1.514555,-3.9124654 0.903587,-0.8698061 1.972243,-1.2742382 3.380682,-1.2742382 3.315299,0 4.023806,2.0365651 4.23818,3.3739612 h 5.396873 C 41.119349,5.1038227 39.877049,3.2090859 38.127755,1.9426039 36.390252,0.69495845 34.357983,0.05562327 31.671873,0.05562327 c -3.303508,0 -5.663769,0.7601108 -7.586706,2.45096953 -1.945447,1.7229917 -2.983019,4.4443213 -2.983019,7.1590028 v 0.1407202 c 0,2.9662052 0.903588,5.2011082 2.895125,7.0681442 1.866129,1.748476 4.583323,2.548476 7.602785,2.544044 2.682894,0 4.982059,-0.65374 6.571644,-1.893629 1.753582,-1.366205 2.95515,-3.290858 3.097709,-5.82493 h -5.385083 c -0.150062,1.068144 -0.795328,3.361773 -4.274623,3.361773"
+           id="Fill-2"
+           style="fill:#e21834;fill-opacity:1"
+           inkscape:connector-curvature="0" />
+        <polygon
+           id="Fill-5"
+           points="50.387821,1.0268144 44.524684,1.0268144 44.524684,18.704377 59.988574,18.704377 59.988574,13.858947 50.387821,13.858947 "
+           style="fill:#e21834;fill-opacity:1" />
+      </g>
+    </g>
+  </g>
+  <g
+     transform="matrix(-8.0679057,0,0,8.0679057,1931.3297,-4486.2405)"
+     id="g102"
+     style="fill:#e21834;fill-opacity:1">
+    <g
+       id="g104"
+       clip-path="url(#clipPath108)"
+       style="fill:#e21834;fill-opacity:1">
+      <g
+         id="g110"
+         transform="translate(50.7638,616.2756)"
+         style="fill:#e21834;fill-opacity:1">
+        <path
+           d="m 0,0 h 75.896 l -0.004,-34.236 c 0,-6.212 -5.082,-11.295 -11.297,-11.295 H 0 Z"
+           style="fill:#e21834;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path112"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
+  </g>
+  <g
+     id="g114"
+     transform="matrix(8.0679057,0,0,-8.0679057,1000.5766,276.03748)">
+    <path
+       d="m 0,0 h 6.039 v -10.813 h 5.399 V 0 h 6.03 V 4.367 H 0 Z"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       id="path116"
+       inkscape:connector-curvature="0" />
+  </g>
+  <g
+     transform="matrix(8.0679057,0,0,-8.0679057,499.8928,5090.5265)"
+     id="g118">
+    <g
+       id="g120"
+       clip-path="url(#clipPath124)">
+      <g
+         id="g126"
+         transform="translate(90.1036,589.0607)">
+        <path
+           d="M 0,0 C -1.252,0 -2.195,0.357 -2.993,1.104 -3.771,1.827 -4.34,2.949 -4.34,4.457 v 0.23 c 0,1.505 0.569,2.635 1.347,3.359 0.798,0.75 1.748,1.097 2.999,1.097 2.943,0 3.57,-1.752 3.759,-2.898 H 8.557 C 8.441,8.552 7.341,10.175 5.784,11.258 4.241,12.335 2.44,12.88 0.057,12.88 -2.876,12.88 -4.968,12.229 -6.674,10.775 -8.402,9.297 -9.322,6.963 -9.322,4.632 V 4.511 c 0,-2.544 0.799,-4.459 2.569,-6.065 1.658,-1.504 4.068,-2.191 6.749,-2.185 2.378,0.004 4.419,0.561 5.828,1.623 1.557,1.174 2.62,2.827 2.748,5.003 H 3.793 C 3.662,1.969 3.089,0 0,0"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path128"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
+  </g>
+  <g
+     id="g130"
+     transform="matrix(8.0679057,0,0,-8.0679057,1361.2846,329.67292)">
+    <path
+       d="M 0,0 V 11.013 H -5.202 V -4.162 H 8.521 V 0 Z"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       id="path132"
+       inkscape:connector-curvature="0" />
+  </g>
+  <g
+     transform="matrix(8.0679057,0,0,-8.0679057,497.15961,5518.8226)"
+     id="g102-5"
+     style="fill:#e21834;fill-opacity:1"
+     inkscape:export-filename="C:\Users\alex\sites\tcl-logo-2.png"
+     inkscape:export-xdpi="109.74622"
+     inkscape:export-ydpi="109.74622">
+    <g
+       id="g104-6"
+       clip-path="url(#clipPath108-1)"
+       style="fill:#e21834;fill-opacity:1">
+      <g
+         id="g110-6"
+         transform="translate(50.7638,616.2756)"
+         style="fill:#e21834;fill-opacity:1">
+        <path
+           d="m 0,0 h 75.896 l -0.004,-34.236 c 0,-6.212 -5.082,-11.295 -11.297,-11.295 H 0 Z"
+           style="fill:#e21834;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path112-6"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
+  </g>
+  <g
+     id="g114-5"
+     transform="matrix(8.0679057,0,0,-8.0679057,997.84343,704.33355)"
+     inkscape:export-filename="C:\Users\alex\sites\tcl-logo-2.png"
+     inkscape:export-xdpi="109.74622"
+     inkscape:export-ydpi="109.74622">
+    <path
+       d="m 0,0 h 6.039 v -10.813 h 5.399 V 0 h 6.03 V 4.367 H 0 Z"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       id="path116-2"
+       inkscape:connector-curvature="0" />
+  </g>
+  <g
+     transform="matrix(8.0679057,0,0,-8.0679057,497.15961,5518.8226)"
+     id="g118-5"
+     inkscape:export-filename="C:\Users\alex\sites\tcl-logo-2.png"
+     inkscape:export-xdpi="109.74622"
+     inkscape:export-ydpi="109.74622">
+    <g
+       id="g120-3"
+       clip-path="url(#clipPath124-0)">
+      <g
+         id="g126-3"
+         transform="translate(90.1036,589.0607)">
+        <path
+           d="M 0,0 C -1.252,0 -2.195,0.357 -2.993,1.104 -3.771,1.827 -4.34,2.949 -4.34,4.457 v 0.23 c 0,1.505 0.569,2.635 1.347,3.359 0.798,0.75 1.748,1.097 2.999,1.097 2.943,0 3.57,-1.752 3.759,-2.898 H 8.557 C 8.441,8.552 7.341,10.175 5.784,11.258 4.241,12.335 2.44,12.88 0.057,12.88 -2.876,12.88 -4.968,12.229 -6.674,10.775 -8.402,9.297 -9.322,6.963 -9.322,4.632 V 4.511 c 0,-2.544 0.799,-4.459 2.569,-6.065 1.658,-1.504 4.068,-2.191 6.749,-2.185 2.378,0.004 4.419,0.561 5.828,1.623 1.557,1.174 2.62,2.827 2.748,5.003 H 3.793 C 3.662,1.969 3.089,0 0,0"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path128-4"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
+  </g>
+  <g
+     id="g130-2"
+     transform="matrix(8.0679057,0,0,-8.0679057,1358.5514,757.96899)"
+     inkscape:export-filename="C:\Users\alex\sites\tcl-logo-2.png"
+     inkscape:export-xdpi="109.74622"
+     inkscape:export-ydpi="109.74622">
+    <path
+       d="M 0,0 V 11.013 H -5.202 V -4.162 H 8.521 V 0 Z"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       id="path132-9"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

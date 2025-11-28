@@ -1,4 +1,5 @@
 // src/data/mockData.ts
+import { Client } from "@/types";
 
 // --- DADOS GERAIS (Usados no Dashboard Principal) ---
 export const salesData = [
@@ -87,47 +88,47 @@ export const detailedLegalData = {
   ]
 };
 
-
 export const documentsData = [
   { id: 1, name: "Contrato de Trabalho - Modelo 2025", category: "Contratos" },
   { id: 2, name: "Política de LGPD", category: "Compliance" },
   { id: 3, name: "Manual do Funcionário", category: "Recursos Humanos" },
-    { id: 4, name: "Relatório Financeiro Q1 2025", category: "Financeiro" },
-    { id: 5, name: "Plano de Marketing 2025", category: "Marketing" },
-    { id: 6, name: "Guia de Boas Práticas", category: "Compliance" },
-    { id: 7, name: "Contrato de Prestação de Serviços - Modelo 2025", category: "Contratos" },
-    { id: 8, name: "Política de Segurança da Informação", category: "Compliance" },
-    { id: 9, name: "Relatório Anual de Sustentabilidade 2024", category: "Sustentabilidade" },
-    { id: 10, name: "Estratégia de Vendas 2025", category: "Vendas" },
-    { id: 11, name: "Manual de Procedimentos Internos", category: "Recursos Humanos" },
-    { id: 12, name: "Contrato de Confidencialidade - Modelo 2025", category: "Contratos" },
-    { id: 13, name: "Política de Uso de Recursos Corporativos", category: "Compliance" },
-    { id: 14, name: "Relatório de Auditoria Interna 2024", category: "Financeiro" },
-    { id: 15, name: "Plano de Desenvolvimento de Liderança 2025", category: "Recursos Humanos"},
-    { id: 16, name: "Guia de Comunicação Corporativa", category: "Comunicação" },
-    { id: 17, name: "Contrato de Locação Comercial - Modelo 2025", category: "Contratos" },
-    { id: 18, name: "Política de Diversidade e Inclusão", category: "Recursos Humanos" },
-    { id: 19, name: "Relatório de Desempenho Financeiro Q2 2025", category: "Financeiro" },
-    { id: 20, name: "Estratégia de Marketing Digital 2025", category: "Marketing" },      
+  { id: 4, name: "Relatório Financeiro Q1 2025", category: "Financeiro" },
+  { id: 5, name: "Plano de Marketing 2025", category: "Marketing" },
+  { id: 6, name: "Guia de Boas Práticas", category: "Compliance" },
+  { id: 7, name: "Contrato de Prestação de Serviços - Modelo 2025", category: "Contratos" },
+  { id: 8, name: "Política de Segurança da Informação", category: "Compliance" },
+  { id: 9, name: "Relatório Anual de Sustentabilidade 2024", category: "Sustentabilidade" },
+  { id: 10, name: "Estratégia de Vendas 2025", category: "Vendas" },
+  { id: 11, name: "Manual de Procedimentos Internos", category: "Recursos Humanos" },
+  { id: 12, name: "Contrato de Confidencialidade - Modelo 2025", category: "Contratos" },
+  { id: 13, name: "Política de Uso de Recursos Corporativos", category: "Compliance" },
+  { id: 14, name: "Relatório de Auditoria Interna 2024", category: "Financeiro" },
+  { id: 15, name: "Plano de Desenvolvimento de Liderança 2025", category: "Recursos Humanos"},
+  { id: 16, name: "Guia de Comunicação Corporativa", category: "Comunicação" },
+  { id: 17, name: "Contrato de Locação Comercial - Modelo 2025", category: "Contratos" },
+  { id: 18, name: "Política de Diversidade e Inclusão", category: "Recursos Humanos" },
+  { id: 19, name: "Relatório de Desempenho Financeiro Q2 2025", category: "Financeiro" },
+  { id: 20, name: "Estratégia de Marketing Digital 2025", category: "Marketing" },      
 ];
 
-import { Client } from "@/types";
-
+// --- CLIENTES ATUALIZADOS COM LOGOS LOCAIS ---
 export const mockClients: Client[] = [
   {
     id: "pg",
     name: "P&G",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/8/85/Procter_%26_Gamble_logo.svg",
+    // Logo SVG local
+    logo: "/logos/P&G-logo.svg",
     segment: "Higiene & Beleza",
     status: "Ativo",
     kpis: { sellOut: 1250000, shareOfShelf: 45, ruptura: 3.2, visitas: 120, skusAtivos: 85 },
-    powerBiUrl: "https://app.powerbi.com/view?r=eyJrIjoiMzRiNGU4MDctM2I3OC00MDUyLTlkOWEtNDdlYTcxYTVjOWVhIiwidCI6ImI1MGFkYzllLTQ5YjEtNDQxNy1hM2I1LTljNzFiZDNmMmMyZCJ9", // Link simulado
+    powerBiUrl: "https://app.powerbi.com/view?r=eyJrIjoiMzRiNGU4MDctM2I3OC00MDUyLTlkOWEtNDdlYTcxYTVjOWVhIiwidCI6ImI1MGFkYzllLTQ5YjEtNDQxNy1hM2I1LTljNzFiZDNmMmMyZCJ9",
     lastUpdate: "Hoje, 09:00"
   },
   {
     id: "semptcl",
     name: "SempTCL",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Semp_TCL_logo.png/800px-Semp_TCL_logo.png",
+    // Logo SVG local
+    logo: "/logos/tcl-logo.svg",
     segment: "Eletrônicos",
     status: "Ativo",
     kpis: { sellOut: 980000, shareOfShelf: 22, ruptura: 5.5, visitas: 45, skusAtivos: 30 },
@@ -137,7 +138,8 @@ export const mockClients: Client[] = [
   {
     id: "crs",
     name: "CRS Brands",
-    logo: "https://crsbrands.com.br/wp-content/uploads/2020/07/logo-crs.png",
+    // Logo PNG local (atenção à extensão)
+    logo: "/logos/crs-logo.png",
     segment: "Bebidas",
     status: "Ativo",
     kpis: { sellOut: 450000, shareOfShelf: 18, ruptura: 8.1, visitas: 60, skusAtivos: 42 },

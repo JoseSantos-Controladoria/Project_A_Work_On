@@ -64,7 +64,7 @@ export function ClientCenter({ onClose }: ClientCenterProps) {
             {filteredClients.map((client) => (
               <Card 
                 key={client.id} 
-                className="hover:shadow-lg transition-all cursor-pointer group border-slate-200"
+                className="hover:shadow-lg transition-all cursor-pointer group border-slate-200 flex flex-col justify-between"
                 onClick={() => setSelectedClient(client)}
               >
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -78,16 +78,20 @@ export function ClientCenter({ onClose }: ClientCenterProps) {
                     </span>
                   )}
                 </CardHeader>
-                <CardContent>
-                  <div className="flex flex-col items-center text-center py-4">
-                    <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm mb-4 border p-4">
+                <CardContent className="flex-1 flex flex-col">
+                  <div className="flex flex-col items-center text-center py-4 flex-1">
+                    
+                    {/* --- LOGO ATUALIZADA --- */}
+                    <div className="w-24 h-24 bg-white rounded-lg border p-2 flex items-center justify-center shadow-sm mb-4 relative overflow-hidden aspect-square">
                         <img 
                           src={client.logo} 
                           alt={client.name} 
-                          className="w-full h-full object-contain" 
+                          className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105" 
                           onError={(e) => e.currentTarget.src='https://placehold.co/64?text=Logo'} 
                         />
                     </div>
+                    {/* ----------------------- */}
+
                     <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
                       {client.name}
                     </h3>
@@ -110,6 +114,23 @@ export function ClientCenter({ onClose }: ClientCenterProps) {
                       <p className="font-semibold text-blue-600">{client.kpis.shareOfShelf}%</p>
                     </div>
                   </div>
+
+                  {/* --- BOTÃO POWER BI COM STOP PROPAGATION --- */}
+                  <div className="mt-6 pt-2">
+                    <Button 
+                        variant="outline" 
+                        className="w-full border-yellow-500 text-yellow-700 hover:bg-yellow-50 hover:text-yellow-800"
+                        onClick={(e) => {
+                          e.stopPropagation(); // Impede que o clique abra o modal do cliente
+                          window.open(client.powerBiUrl, '_blank');
+                        }}
+                    >
+                        <BarChart2 className="w-4 h-4 mr-2" />
+                        Dashboard Power BI
+                    </Button>
+                  </div>
+                  {/* ------------------------------------------- */}
+
                 </CardContent>
               </Card>
             ))}
@@ -131,7 +152,7 @@ export function ClientCenter({ onClose }: ClientCenterProps) {
               <ArrowLeft className="w-5 h-5" />
             </Button>
             <div className="flex items-center gap-4">
-               <div className="w-12 h-12 bg-slate-50 rounded-lg border p-2 flex items-center justify-center">
+               <div className="w-16 h-16 bg-white rounded-lg border p-2 flex items-center justify-center">
                   <img src={selectedClient.logo} className="w-full h-full object-contain" />
                </div>
                <div>
