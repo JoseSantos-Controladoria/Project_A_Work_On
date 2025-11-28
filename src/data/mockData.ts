@@ -121,7 +121,7 @@ export const mockClients: Client[] = [
     segment: "Higiene & Beleza",
     status: "Ativo",
     kpis: { sellOut: 1250000, shareOfShelf: 45, ruptura: 3.2, visitas: 120, skusAtivos: 85 },
-    powerBiUrl: "https://app.powerbi.com/view?r=dummy-pg", // Link simulado
+    powerBiUrl: "https://app.powerbi.com/view?r=eyJrIjoiMzRiNGU4MDctM2I3OC00MDUyLTlkOWEtNDdlYTcxYTVjOWVhIiwidCI6ImI1MGFkYzllLTQ5YjEtNDQxNy1hM2I1LTljNzFiZDNmMmMyZCJ9", // Link simulado
     lastUpdate: "Hoje, 09:00"
   },
   {
@@ -131,7 +131,7 @@ export const mockClients: Client[] = [
     segment: "Eletrônicos",
     status: "Ativo",
     kpis: { sellOut: 980000, shareOfShelf: 22, ruptura: 5.5, visitas: 45, skusAtivos: 30 },
-    powerBiUrl: "https://app.powerbi.com/view?r=dummy-semptcl",
+    powerBiUrl: "https://app.powerbi.com/view?r=eyJrIjoiMzA1OWVhYjAtODljNy00ZTZmLThjOGItOTZjMWRjMzNhNjM3IiwidCI6ImI1MGFkYzllLTQ5YjEtNDQxNy1hM2I1LTljNzFiZDNmMmMyZCJ9",
     lastUpdate: "Ontem, 18:30"
   },
   {
@@ -141,7 +141,7 @@ export const mockClients: Client[] = [
     segment: "Bebidas",
     status: "Ativo",
     kpis: { sellOut: 450000, shareOfShelf: 18, ruptura: 8.1, visitas: 60, skusAtivos: 42 },
-    powerBiUrl: "https://app.powerbi.com/view?r=dummy-crs",
+    powerBiUrl: "https://app.powerbi.com/view?r=eyJrIjoiNjhiYjcxY2YtYzM0Yi00ZGIxLTlkMjgtYWU0MDM1ZGY2MWQ0IiwidCI6ImI1MGFkYzllLTQ5YjEtNDQxNy1hM2I1LTljNzFiZDNmMmMyZCJ9",
     lastUpdate: "Hoje, 10:15"
   }
 ];
