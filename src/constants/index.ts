@@ -33,6 +33,7 @@ export const USER_ROLES = {
   ADMIN: "Admin",
   JURIDICO: "Jurídico",
   GESTOR: "Gestor",
+  OPERACAO: "Operação",
   COLABORADOR: "Colaborador",
   ESTAGIARIO: "Estagiário",
 } as const;
@@ -42,6 +43,7 @@ export const VIEW_TYPES = {
   SETTINGS: "settings",
   ADMIN: "admin",
   LEGAL: "legal",
+  CLIENT_CENTER: "client-center", 
 } as const;
 
 export const MOCK_USERS = {
@@ -50,5 +52,7 @@ export const MOCK_USERS = {
   gestor: { email: "gestor@empresa.com", name: "Carlos Santos", role: "Gestor" as const },
   colaborador: { email: "colaborador@empresa.com", name: "Maria Oliveira", role: "Colaborador" as const },
   estagiario: { email: "estagiario@empresa.com", name: "Patricia Costa", role: "Estagiário" as const },
+
+  operacao: { email: "operacao@empresa.com", name: "Roberto Campos", role: "Operação" as const },
 };
 

@@ -11,6 +11,7 @@ import { ChatbotPanel } from "./components/ChatbotPanel";
 import { UserSettings } from "./components/UserSettings";
 import { AdminPanel } from "./components/AdminPanel";
 import { LegalCenter } from "./components/LegalCenter";
+import { ClientCenter } from "./components/ClientCenter"; // <--- Novo Import
 import { ReauthDialog } from "./components/ReauthDialog";
 import { FinancialReport } from "./components/reports/FinancialReport";
 import { LegalReport } from "./components/reports/LegalReport";
@@ -120,6 +121,12 @@ function AppContent() {
         {currentView === "admin" && user?.role === "Admin" && (
           <AdminPanel onClose={() => setCurrentView("dashboard")} />
         )}
+
+        {/* --- NOVA RENDERIZAÇÃO: CENTRAL DO CLIENTE --- */}
+        {currentView === "client-center" && (
+          <ClientCenter onClose={() => setCurrentView("dashboard")} />
+        )}
+        {/* --------------------------------------------- */}
 
         {currentView === "legal" && (user?.role === "Admin" || user?.role === "Jurídico") && (
           <LegalCenter

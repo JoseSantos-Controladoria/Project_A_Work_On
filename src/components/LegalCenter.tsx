@@ -46,7 +46,7 @@ import {
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { Alert, AlertDescription } from "./ui/alert";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 
 interface LegalCenterProps {
   onClose: () => void;

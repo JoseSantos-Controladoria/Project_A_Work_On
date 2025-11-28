@@ -1,11 +1,9 @@
-/**
- * Centralized type definitions for the application
- */
 
-export type UserRole = "Admin" | "Jurídico" | "Gestor" | "Colaborador" | "Estagiário";
+export type UserRole = "Admin" | "Jurídico" | "Gestor" | "Colaborador" | "Estagiário" | "Operação";
 
-export type ViewType = "dashboard" | "settings" | "admin" | "legal";
+export type ViewType = "dashboard" | "settings" | "admin" | "legal" | "client-center"; // Já preparando para o futuro
 
+// ... restante do arquivo igual
 export interface User {
   email: string;
   name: string;
@@ -58,3 +56,21 @@ export interface AppState {
   dataModalContent: DataModalContent | null;
 }
 
+export interface TradeKPIs {
+  sellOut: number;      // Valor de vendas na ponta (R$)
+  shareOfShelf: number; // % de participação na gôndola
+  ruptura: number;      // % de falta de produto
+  visitas: number;      // Visitas realizadas
+  skusAtivos: number;   // Quantidade de produtos ativos
+}
+
+export interface Client {
+  id: string;
+  name: string;
+  logo: string;
+  segment: string;
+  status: "Ativo" | "Inativo";
+  kpis: TradeKPIs;
+  powerBiUrl: string;
+  lastUpdate: string;
+}

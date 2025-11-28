@@ -48,6 +48,10 @@ export class AuthService {
     if (emailLower.includes("estagiario")) {
       return MOCK_USERS.estagiario;
     }
+    // Lógica para o novo usuário
+    if (emailLower.includes("operacao")) {
+      return MOCK_USERS.operacao;
+    }
     if (emailLower.includes("colaborador")) {
       return MOCK_USERS.colaborador;
     }

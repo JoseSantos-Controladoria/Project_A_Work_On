@@ -111,3 +111,37 @@ export const documentsData = [
     { id: 20, name: "Estratégia de Marketing Digital 2025", category: "Marketing" },      
 ];
 
+import { Client } from "@/types";
+
+export const mockClients: Client[] = [
+  {
+    id: "pg",
+    name: "P&G",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/8/85/Procter_%26_Gamble_logo.svg",
+    segment: "Higiene & Beleza",
+    status: "Ativo",
+    kpis: { sellOut: 1250000, shareOfShelf: 45, ruptura: 3.2, visitas: 120, skusAtivos: 85 },
+    powerBiUrl: "https://app.powerbi.com/view?r=dummy-pg", // Link simulado
+    lastUpdate: "Hoje, 09:00"
+  },
+  {
+    id: "semptcl",
+    name: "SempTCL",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Semp_TCL_logo.png/800px-Semp_TCL_logo.png",
+    segment: "Eletrônicos",
+    status: "Ativo",
+    kpis: { sellOut: 980000, shareOfShelf: 22, ruptura: 5.5, visitas: 45, skusAtivos: 30 },
+    powerBiUrl: "https://app.powerbi.com/view?r=dummy-semptcl",
+    lastUpdate: "Ontem, 18:30"
+  },
+  {
+    id: "crs",
+    name: "CRS Brands",
+    logo: "https://crsbrands.com.br/wp-content/uploads/2020/07/logo-crs.png",
+    segment: "Bebidas",
+    status: "Ativo",
+    kpis: { sellOut: 450000, shareOfShelf: 18, ruptura: 8.1, visitas: 60, skusAtivos: 42 },
+    powerBiUrl: "https://app.powerbi.com/view?r=dummy-crs",
+    lastUpdate: "Hoje, 10:15"
+  }
+];

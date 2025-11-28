@@ -1,4 +1,4 @@
-import { Building2, Users, DollarSign, Package, TrendingUp, Server, LayoutDashboard, Shield, Scale } from "lucide-react";
+import { Building2, Users, DollarSign, Package, TrendingUp, Server, LayoutDashboard, Shield, Scale, Store } from "lucide-react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 
@@ -63,6 +63,18 @@ export function DashboardSidebar({
           >
             <Shield className="w-5 h-5 mr-3" />
             Administração
+          </Button>
+        )}
+
+        {/* --- NOVO BOTÃO: CENTRAL DO CLIENTE --- */}
+        {(userRole === "Admin" || userRole === "Gestor" || userRole === "Operação") && (
+          <Button
+            variant={currentView === "client-center" ? "secondary" : "ghost"}
+            className="w-full justify-start"
+            onClick={() => onViewChange("client-center")}
+          >
+            <Store className="w-5 h-5 mr-3" />
+            Central do Cliente
           </Button>
         )}
 
