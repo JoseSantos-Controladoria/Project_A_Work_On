@@ -6,6 +6,7 @@ const openai = new OpenAI({
   dangerouslyAllowBrowser: true,
 });
 
+
 const tools: OpenAI.Chat.Completions.ChatCompletionTool[] = [
   {
     type: "function",
