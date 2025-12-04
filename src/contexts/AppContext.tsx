@@ -23,7 +23,7 @@ interface AppContextType {
   updateDepartments: (departments: string[]) => void;
   setChatbotOpen: (open: boolean) => void;
   setShowReauthDialog: (show: boolean) => void;
-  setDataModalOpenState: (open: boolean) => void;
+  setDataModalOpen: (open: boolean) => void;
   setDataModalContent: (content: DataModalContent | null) => void;
   handleBotAction: (action: BotAction) => void;
   resetToDashboard: () => void;

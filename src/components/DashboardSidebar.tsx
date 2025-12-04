@@ -1,4 +1,5 @@
 import { Building2, Users, DollarSign, Package, TrendingUp, Server, LayoutDashboard, Shield, Scale, Store } from "lucide-react";
+import { ViewType } from "@/types";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 
@@ -20,8 +21,8 @@ export const departments: Department[] = [
 interface DashboardSidebarProps {
   selectedDepartments: string[];
   onToggleDepartment: (id: string) => void;
-  currentView: string;
-  onViewChange: (view: string) => void;
+  currentView: ViewType;
+  onViewChange: (view: ViewType) => void;
   userRole: string;
 }
 

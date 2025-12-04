@@ -8,7 +8,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useApp } from "@/contexts/AppContext";
 
 export function useViewNavigation() {
-  const { hasPermission, setLegalAuthenticated } = useAuth();
+  const { hasPermission } = useAuth();
   const { setCurrentView, setShowReauthDialog } = useApp();
 
   const navigateToView = useCallback(

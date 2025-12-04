@@ -24,12 +24,13 @@ import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { AppProvider, useApp } from "./contexts/AppContext";
 import { useBotActions } from "./hooks/useBotActions";
 import { useViewNavigation } from "./hooks/useViewNavigation";
+import { ViewType } from "@/types";
 
 /**
  * Main App Content (requires providers)
  */
 function AppContent() {
-  const { isLoggedIn, user, reauthenticate, setLegalAuthenticated, logout } = useAuth();
+  const { isLoggedIn, user, setLegalAuthenticated, logout } = useAuth();
   const {
     currentView,
     selectedDepartments,
@@ -43,7 +44,6 @@ function AppContent() {
     setChatbotOpen,
     setShowReauthDialog,
     setDataModalOpen,
-    setDataModalContent,
   } = useApp();
 
   const { handleBotAction } = useBotActions();
@@ -57,8 +57,8 @@ function AppContent() {
   };
 
   const handleReauthSuccess = (password: string) => {
-    // Reauthentication is handled by ReauthDialog component
-    // This callback is called after successful reauth
+    // mark password as used to satisfy strict unused var checks
+    void password;
     setLegalAuthenticated(true);
     setShowReauthDialog(false);
     setCurrentView("legal");
@@ -68,7 +68,7 @@ function AppContent() {
     setShowReauthDialog(false);
   };
 
-  const handleViewChange = (view: typeof currentView) => {
+  const handleViewChange = (view: ViewType) => {
     if (view === "legal") {
       navigateToView(view, true);
     } else {
@@ -165,7 +165,7 @@ function AppContent() {
             {dataModalContent && (
               <>
                 {dataModalContent.data.type === "financial" && (
-                  <FinancialReport month={dataModalContent.data.month} />
+                  <FinancialReport month={dataModalContent.data.month || ""} />
                 )}
 
                 {dataModalContent.data.type === "legal" && <LegalReport />}

@@ -22,8 +22,12 @@ import {
   UserX,
   FileDown,
   Loader2,
-  CloudUpload, // <--- NOVO ÍCONE
-  X // Para remover arquivo da lista
+  CloudUpload,
+  X,
+  Kanban,
+  Gavel,
+  CheckCircle2,
+  MoreHorizontal
 } from "lucide-react";
 import {
   Table,
@@ -56,10 +60,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 // Importações do React-PDF
 import { 
-  Document as PdfDocument, 
-  Page, 
-  Text, 
-  View, 
+  Document,
+  Page,
+  Text,
+  View,
   StyleSheet,
   PDFDownloadLink 
 } from '@react-pdf/renderer';
@@ -73,19 +77,165 @@ interface LegalCenterProps {
   userRole: string;
 }
 
-// ... (Interfaces DocumentType, AuditLog, CollaboratorDossier, pdfStyles, LegalDossierDocument e Mock Data permanecem IGUAIS)
-// Para economizar espaço, vou focar apenas nas alterações dentro do componente principal.
-// Assuma que todas as interfaces e dados mockados anteriores estão aqui.
-
-// --- REPETINDO MOCKS PARA O EXEMPLO FUNCIONAR ---
+// --- TIPOS EXISTENTES ---
 interface DocumentType { id: number; name: string; department: string; category: string; version: string; uploadDate: string; uploadedBy: string; size: string; status: "Ativo" | "Arquivado" | "Revisão"; fileType: string; accessCount: number; }
 interface AuditLog { id: number; user: string; action: string; document: string; timestamp: string; ip: string; }
 interface CollaboratorDossier { matricula: string; name: string; cpf: string; role: string; department: string; admissionDate: string; terminationDate?: string; terminationReason?: string; status: "Ativo" | "Desligado" | "Afastado"; riskLevel: "Baixo" | "Médio" | "Alto"; pointHistory: { month: string; absences: number; delays: number; overtime: number; status: string; }[]; occurrences: { id: number; type: "Advertência" | "Suspensão" | "Atestado" | "Promoção" | "Rescisão"; date: string; description: string; documentUrl?: string; }[]; documents: { id: number; name: string; type: string; date: string; }[]; }
 
+// --- NOVOS TIPOS PARA O KANBAN ---
+type ProcessStatus = "analise" | "juizo" | "concluido";
+
+interface LegalProcess {
+  id: string;
+  number: string;
+  title: string;
+  value: string;
+  priority: "Alta" | "Média" | "Baixa";
+  type: "Trabalhista" | "Cível" | "Tributário";
+  dueDate: string;
+}
+
+interface KanbanColumn {
+  id: ProcessStatus;
+  title: string;
+  items: LegalProcess[];
+}
+
+// --- MOCK DATA PARA O KANBAN ---
+const initialKanbanData: KanbanColumn[] = [
+  {
+    id: "analise",
+    title: "Em Análise",
+    items: [
+      { id: "p1", number: "0012345-88.2025.5.02.0001", title: "Reclamação Trab. - Silva", value: "R$ 45.000", priority: "Alta", type: "Trabalhista", dueDate: "15/12/2025" },
+      { id: "p2", number: "0054321-12.2025.8.26.0100", title: "Ação Indenizatória Fornecedor", value: "R$ 12.500", priority: "Média", type: "Cível", dueDate: "20/01/2026" },
+    ]
+  },
+  {
+    id: "juizo",
+    title: "Em Juízo",
+    items: [
+      { id: "p3", number: "0098765-33.2024.5.02.0055", title: "Recurso Ordinário - Oliveira", value: "R$ 120.000", priority: "Alta", type: "Trabalhista", dueDate: "10/11/2025" },
+    ]
+  },
+  {
+    id: "concluido",
+    title: "Concluído / Arquivado",
+    items: [
+      { id: "p4", number: "0011223-44.2023.4.03.6100", title: "Execução Fiscal - ISS", value: "R$ 5.000", priority: "Baixa", type: "Tributário", dueDate: "Finalizado" },
+    ]
+  }
+];
+
 const pdfStyles = StyleSheet.create({ page: { padding: 40, fontFamily: 'Helvetica' }, headerContainer: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, borderBottomWidth: 1, borderBottomColor: '#ccc', paddingBottom: 10 }, headerTitle: { fontSize: 18, color: '#1e293b', fontWeight: 'bold' }, headerSubtitle: { fontSize: 10, color: '#64748b' }, sectionTitle: { fontSize: 14, marginTop: 20, marginBottom: 10, padding: 5, backgroundColor: '#f1f5f9', color: '#334155', fontWeight: 'bold' }, row: { flexDirection: 'row', marginBottom: 5 }, label: { width: '30%', fontSize: 10, color: '#64748b' }, value: { width: '70%', fontSize: 10, color: '#0f172a' }, statusValue: { width: '70%', fontSize: 10, color: '#0f172a', fontWeight: 'bold' }, warningText: { color: '#dc2626', fontWeight: 'bold' }, tableHeader: { flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#000', paddingBottom: 5, marginTop: 10, backgroundColor: '#e2e8f0' }, tableRow: { flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#e2e8f0', paddingVertical: 6 }, colDate: { width: '20%', fontSize: 9, paddingLeft: 5 }, colType: { width: '30%', fontSize: 9 }, colDesc: { width: '50%', fontSize: 9 }, footer: { position: 'absolute', bottom: 30, left: 40, right: 40, textAlign: 'center', fontSize: 8, color: '#94a3b8', borderTopWidth: 1, borderTopColor: '#e2e8f0', paddingTop: 10 } });
 
-const LegalDossierDocument = ({ data, user }: { data: CollaboratorDossier, user: string }) => (
-  <PdfDocument><Page size="A4" style={pdfStyles.page}><View style={pdfStyles.headerContainer}><View><Text style={pdfStyles.headerTitle}>Dossiê Jurídico</Text><Text style={pdfStyles.headerSubtitle}>Confidencial - Uso Interno</Text></View><View><Text style={pdfStyles.headerSubtitle}>Gerado em: {new Date().toLocaleDateString()}</Text><Text style={pdfStyles.headerSubtitle}>Solicitante: {user}</Text></View></View><Text style={pdfStyles.sectionTitle}>Dados do Colaborador</Text><View><View style={pdfStyles.row}><Text style={pdfStyles.label}>Nome Completo:</Text><Text style={pdfStyles.value}>{data.name}</Text></View><View style={pdfStyles.row}><Text style={pdfStyles.label}>CPF:</Text><Text style={pdfStyles.value}>{data.cpf}</Text></View><View style={pdfStyles.row}><Text style={pdfStyles.label}>Matrícula:</Text><Text style={pdfStyles.value}>{data.matricula}</Text></View><View style={pdfStyles.row}><Text style={pdfStyles.label}>Departamento:</Text><Text style={pdfStyles.value}>{data.department}</Text></View><View style={pdfStyles.row}><Text style={pdfStyles.label}>Cargo:</Text><Text style={pdfStyles.value}>{data.role}</Text></View><View style={pdfStyles.row}><Text style={pdfStyles.label}>Status:</Text><Text style={data.status === 'Desligado' ? [pdfStyles.statusValue, pdfStyles.warningText] : pdfStyles.statusValue}>{data.status.toUpperCase()}</Text></View></View><Text style={pdfStyles.sectionTitle}>Análise de Vínculo</Text><View><View style={pdfStyles.row}><Text style={pdfStyles.label}>Data de Admissão:</Text><Text style={pdfStyles.value}>{new Date(data.admissionDate).toLocaleDateString()}</Text></View><View style={pdfStyles.row}><Text style={pdfStyles.label}>Risco Trabalhista:</Text><Text style={pdfStyles.value}>{data.riskLevel}</Text></View>{data.terminationDate && (<><View style={pdfStyles.row}><Text style={pdfStyles.label}>Data de Desligamento:</Text><Text style={pdfStyles.value}>{new Date(data.terminationDate).toLocaleDateString()}</Text></View><View style={pdfStyles.row}><Text style={pdfStyles.label}>Motivo:</Text><Text style={pdfStyles.value}>{data.terminationReason}</Text></View></>)}</View><Text style={pdfStyles.sectionTitle}>Histórico de Ocorrências</Text><View style={pdfStyles.tableHeader}><Text style={pdfStyles.colDate}>DATA</Text><Text style={pdfStyles.colType}>TIPO</Text><Text style={pdfStyles.colDesc}>DESCRIÇÃO</Text></View>{data.occurrences.map((occ) => (<View key={occ.id} style={pdfStyles.tableRow}><Text style={pdfStyles.colDate}>{new Date(occ.date).toLocaleDateString()}</Text><Text style={pdfStyles.colType}>{occ.type}</Text><Text style={pdfStyles.colDesc}>{occ.description}</Text></View>))}<Text style={pdfStyles.footer}>Este documento contém informações sensíveis protegidas pela LGPD. O compartilhamento não autorizado é proibido. Gerado pelo sistema Work On.</Text></Page></PdfDocument>
+const LegalDossierDocument = ({ data, user }: { data: CollaboratorDossier; user: string }) => (
+  <Document>
+    <Page size="A4" style={pdfStyles.page}>
+      {/* CABEÇALHO */}
+      <View style={pdfStyles.headerContainer}>
+        <View>
+          <Text style={pdfStyles.headerTitle}>Dossiê Jurídico</Text>
+          <Text style={pdfStyles.headerSubtitle}>Confidencial - Uso Interno</Text>
+        </View>
+        <View>
+          <Text style={pdfStyles.headerSubtitle}>
+            Gerado em: {new Date().toLocaleDateString("pt-BR")}
+          </Text>
+          <Text style={pdfStyles.headerSubtitle}>Solicitante: {user}</Text>
+        </View>
+      </View>
+
+      {/* DADOS DO COLABORADOR */}
+      <Text style={pdfStyles.sectionTitle}>Dados do Colaborador</Text>
+      <View>
+        <View style={pdfStyles.row}>
+          <Text style={pdfStyles.label}>Nome Completo:</Text>
+          <Text style={pdfStyles.value}>{data.name}</Text>
+        </View>
+        <View style={pdfStyles.row}>
+          <Text style={pdfStyles.label}>CPF:</Text>
+          <Text style={pdfStyles.value}>{data.cpf}</Text>
+        </View>
+        <View style={pdfStyles.row}>
+          <Text style={pdfStyles.label}>Matrícula:</Text>
+          <Text style={pdfStyles.value}>{data.matricula}</Text>
+        </View>
+        <View style={pdfStyles.row}>
+          <Text style={pdfStyles.label}>Departamento:</Text>
+          <Text style={pdfStyles.value}>{data.department}</Text>
+        </View>
+        <View style={pdfStyles.row}>
+          <Text style={pdfStyles.label}>Cargo:</Text>
+          <Text style={pdfStyles.value}>{data.role}</Text>
+        </View>
+        <View style={pdfStyles.row}>
+          <Text style={pdfStyles.label}>Status:</Text>
+          <Text
+            style={
+              data.status === "Desligado"
+                ? [pdfStyles.statusValue, pdfStyles.warningText]
+                : pdfStyles.statusValue
+            }
+          >
+            {data.status.toUpperCase()}
+          </Text>
+        </View>
+      </View>
+
+      {/* ANÁLISE DE VÍNCULO */}
+      <Text style={pdfStyles.sectionTitle}>Análise de Vínculo</Text>
+      <View>
+        <View style={pdfStyles.row}>
+          <Text style={pdfStyles.label}>Data de Admissão:</Text>
+          <Text style={pdfStyles.value}>
+            {new Date(data.admissionDate).toLocaleDateString("pt-BR")}
+          </Text>
+        </View>
+        <View style={pdfStyles.row}>
+          <Text style={pdfStyles.label}>Risco Trabalhista:</Text>
+          <Text style={pdfStyles.value}>{data.riskLevel}</Text>
+        </View>
+        {data.terminationDate && (
+          <>
+            <View style={pdfStyles.row}>
+              <Text style={pdfStyles.label}>Data de Desligamento:</Text>
+              <Text style={pdfStyles.value}>
+                {new Date(data.terminationDate).toLocaleDateString("pt-BR")}
+              </Text>
+            </View>
+            <View style={pdfStyles.row}>
+              <Text style={pdfStyles.label}>Motivo:</Text>
+              <Text style={pdfStyles.value}>{data.terminationReason}</Text>
+            </View>
+          </>
+        )}
+      </View>
+
+      {/* HISTÓRICO DE OCORRÊNCIAS */}
+      <Text style={pdfStyles.sectionTitle}>Histórico de Ocorrências</Text>
+      <View style={pdfStyles.tableHeader}>
+        <Text style={pdfStyles.colDate}>DATA</Text>
+        <Text style={pdfStyles.colType}>TIPO</Text>
+        <Text style={pdfStyles.colDesc}>DESCRIÇÃO</Text>
+      </View>
+      {data.occurrences.map((occ) => (
+        <View key={occ.id} style={pdfStyles.tableRow}>
+          <Text style={pdfStyles.colDate}>
+            {new Date(occ.date).toLocaleDateString("pt-BR")}
+          </Text>
+          <Text style={pdfStyles.colType}>{occ.type}</Text>
+          <Text style={pdfStyles.colDesc}>{occ.description}</Text>
+        </View>
+      ))}
+
+      {/* RODAPÉ */}
+      <Text style={pdfStyles.footer}>
+        Este documento contém informações sensíveis protegidas pela LGPD. O
+        compartilhamento não autorizado é proibido. Gerado pelo sistema Work On.
+      </Text>
+    </Page>
+  </Document>
 );
 
 const mockDocuments: DocumentType[] = [
@@ -94,12 +244,19 @@ const mockDocuments: DocumentType[] = [
   { id: 3, name: "Acordo de Fornecimento - TechSupply Ltda", department: "Financeiro", category: "Contratos", version: "v1.5", uploadDate: "2025-10-20", uploadedBy: "Dr. Ricardo Alves", size: "512 KB", status: "Ativo", fileType: "DOCX", accessCount: 45 },
   { id: 4, name: "Procuração - Representação Legal", department: "Jurídico", category: "Procurações", version: "v1.0", uploadDate: "2025-09-30", uploadedBy: "Dra. Marina Costa", size: "180 KB", status: "Ativo", fileType: "PDF", accessCount: 23 },
   { id: 5, name: "Licença Ambiental - Sede Principal", department: "Operações", category: "Licenças", version: "v4.0", uploadDate: "2025-08-10", uploadedBy: "Dr. Ricardo Alves", size: "3.5 MB", status: "Ativo", fileType: "PDF", accessCount: 34 },
+  { id: 6, name: "Contrato de Prestação de Serviços - Modelo 2025", department: "Jurídico", category: "Contratos", version: "v2.3", uploadDate: "2025-11-05", uploadedBy: "Dra. Marina Costa", size: "300 KB", status: "Ativo", fileType: "PDF", accessCount: 56 },
+  { id: 7, name: "Aditivo Contratual - TechSupply Ltda", department: "Financeiro", category: "Contratos", version: "v1.1", uploadDate: "2025-11-03", uploadedBy: "Dr. Ricardo Alves", size: "150 KB", status: "Ativo", fileType: "DOCX", accessCount: 12 },
+  { id: 8, name: "Política de Segurança da Informação", department: "TI", category: "Políticas", version: "v3.0", uploadDate: "2025-10-25", uploadedBy: "Dra. Marina Costa", size: "2.1 MB", status: "Ativo", fileType: "PDF", accessCount: 78 },
+  { id: 9, name: "Relatório Anual de Sustentabilidade 2024", department: "Sustentabilidade", category: "Relatórios", version: "v1.0", uploadDate: "2025-09-15", uploadedBy: "Dr. Ricardo Alves", size: "4.8 MB", status: "Ativo", fileType: "PDF", accessCount: 67 },
+  { id: 10, name: "Estratégia de Vendas 2025", department: "Comercial", category: "Planejamento", version: "v2.0", uploadDate: "2025-10-05", uploadedBy: "Dra. Marina Costa", size: "1.5 MB", status: "Ativo", fileType: "PPTX", accessCount: 41 },
 ];
 
 const mockAuditLogs: AuditLog[] = [
   { id: 1, user: "Ana Silva", action: "Download", document: "Política de LGPD", timestamp: "2025-11-07 14:23:15", ip: "192.168.1.10" },
   { id: 2, user: "Dr. Ricardo Alves", action: "Upload", document: "Contrato de Trabalho", timestamp: "2025-11-07 11:45:30", ip: "192.168.1.25" },
   { id: 3, user: "Carlos Santos", action: "Visualização", document: "Acordo de Fornecimento", timestamp: "2025-11-07 09:12:42", ip: "192.168.1.33" },
+  { id: 4, user: "Dra. Marina Costa", action: "Edição", document: "Procuração - Representação Legal", timestamp: "2025-11-06 16:05:18", ip: "192.168.1.34" },
+  { id: 5, user: "Fernanda Lima", action: "Download", document: "Licença Ambiental", timestamp: "2025-11-06 13:37:50", ip: "192.168.1.10" },
 ];
 
 const activeDossierMock: CollaboratorDossier = {
@@ -116,7 +273,7 @@ const dismissedDossierMock: CollaboratorDossier = {
   documents: [{ id: 201, name: "TRCT - Termo de Rescisão.pdf", type: "Legal", date: "2025-10-30" }, { id: 202, name: "Exame Demissional.pdf", type: "Saúde", date: "2025-10-28" }, { id: 203, name: "Carta de Preposto.pdf", type: "Legal", date: "2025-11-01" }, { id: 204, name: "Contrato de Trabalho 2020.pdf", type: "Contrato", date: "2020-05-10" }, { id: 205, name: "Suspensão_Disciplinar.pdf", type: "Disciplinar", date: "2025-09-15" }]
 };
 
-export function LegalCenter({ onClose, userName, userRole }: LegalCenterProps) {
+export function LegalCenter({ onClose, userName }: LegalCenterProps) {
   const { user } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState<string>("all");
@@ -126,14 +283,16 @@ export function LegalCenter({ onClose, userName, userRole }: LegalCenterProps) {
   const [activeDossier, setActiveDossier] = useState<CollaboratorDossier | null>(null);
   const [isSearchingDossier, setIsSearchingDossier] = useState(false);
 
-  // States para Controle de Acesso
   const [showExportReauth, setShowExportReauth] = useState(false);
   const [isExportUnlocked, setIsExportUnlocked] = useState(false);
 
-  // --- NOVOS STATES PARA DRAG-AND-DROP ---
   const [isDragging, setIsDragging] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // --- KANBAN STATES ---
+  const [kanbanColumns, setKanbanColumns] = useState<KanbanColumn[]>(initialKanbanData);
+  const [draggedItem, setDraggedItem] = useState<{ id: string; sourceColumn: ProcessStatus } | null>(null);
 
   const filteredDocuments = mockDocuments.filter((doc) => {
     return (
@@ -142,7 +301,53 @@ export function LegalCenter({ onClose, userName, userRole }: LegalCenterProps) {
     );
   });
 
-  // --- LÓGICA DRAG-AND-DROP ---
+  // --- FUNÇÕES KANBAN ---
+  const onDragStart = (e: React.DragEvent, id: string, sourceColumn: ProcessStatus) => {
+    setDraggedItem({ id, sourceColumn });
+    e.dataTransfer.effectAllowed = "move";
+  };
+
+  const onDragOverKanban = (e: React.DragEvent) => {
+    e.preventDefault(); // Necessário para permitir o drop
+  };
+
+  const onDropKanban = (e: React.DragEvent, targetColumnId: ProcessStatus) => {
+    e.preventDefault();
+    if (!draggedItem) return;
+    if (draggedItem.sourceColumn === targetColumnId) return;
+
+    // Lógica para mover o item
+    const sourceColIndex = kanbanColumns.findIndex(c => c.id === draggedItem.sourceColumn);
+    const targetColIndex = kanbanColumns.findIndex(c => c.id === targetColumnId);
+    
+    if (sourceColIndex === -1 || targetColIndex === -1) return;
+
+    const sourceCol = kanbanColumns[sourceColIndex];
+    const targetCol = kanbanColumns[targetColIndex];
+    if (!sourceCol || !targetCol) return;
+
+    const sourceItems = [...sourceCol.items];
+    const targetItems = [...targetCol.items];
+
+    const itemIndex = sourceItems.findIndex(i => i.id === draggedItem.id);
+    if (itemIndex === -1) return;
+    
+    const movedItem = sourceItems[itemIndex];
+    if (!movedItem) return;
+    
+    sourceItems.splice(itemIndex, 1);
+    targetItems.push(movedItem);
+
+    const newColumns = [...kanbanColumns];
+    newColumns[sourceColIndex] = { ...sourceCol, items: sourceItems };
+    newColumns[targetColIndex] = { ...targetCol, items: targetItems };
+
+    setKanbanColumns(newColumns);
+    setDraggedItem(null);
+    toast.success(`Processo movido para: ${targetCol.title}`);
+  };
+  // --------------------
+
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(true);
@@ -184,7 +389,6 @@ export function LegalCenter({ onClose, userName, userRole }: LegalCenterProps) {
     setUploadedFiles([]); // Limpa lista
     setUploadDialogOpen(false); // Fecha modal
   };
-  // -----------------------------
 
   const handleDossierSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -214,7 +418,7 @@ export function LegalCenter({ onClose, userName, userRole }: LegalCenterProps) {
     setShowExportReauth(true);
   };
 
-  const handleReauthConfirm = (password: string) => {
+  const handleReauthConfirm = () => {
     setShowExportReauth(false);
     setIsExportUnlocked(true);
     toast.success("Acesso Liberado!", { description: "O download do dossiê está disponível." });
@@ -283,6 +487,9 @@ export function LegalCenter({ onClose, userName, userRole }: LegalCenterProps) {
         <Tabs defaultValue="documents" className="space-y-6">
           <TabsList className="bg-white border border-slate-200 p-1 w-full justify-start h-auto print:hidden">
             <TabsTrigger value="documents" className="flex-1 max-w-[200px]">Documentos</TabsTrigger>
+            <TabsTrigger value="processos" className="flex-1 max-w-[200px]">
+                <Kanban className="w-4 h-4 mr-2" /> Processos
+            </TabsTrigger>
             <TabsTrigger value="dossier" className="flex-1 max-w-[200px] data-[state=active]:bg-red-50 data-[state=active]:text-red-700">
                 <Search className="w-4 h-4 mr-2"/>
                 Investigação
@@ -306,7 +513,6 @@ export function LegalCenter({ onClose, userName, userRole }: LegalCenterProps) {
                       </Button>
                     </DialogTrigger>
                     
-                    {/* --- CONTEÚDO DO MODAL DE UPLOAD ATUALIZADO --- */}
                     <DialogContent className="sm:max-w-md">
                         <DialogHeader>
                             <DialogTitle>Upload de Documento</DialogTitle>
@@ -314,7 +520,6 @@ export function LegalCenter({ onClose, userName, userRole }: LegalCenterProps) {
                         </DialogHeader>
                         <div className="space-y-4 pt-4">
                             
-                            {/* ÁREA DE DRAG AND DROP */}
                             <div 
                               className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
                                 isDragging ? "border-blue-500 bg-blue-50" : "border-slate-300 hover:bg-slate-50"
@@ -338,7 +543,6 @@ export function LegalCenter({ onClose, userName, userRole }: LegalCenterProps) {
                               <p className="text-xs text-slate-400 mt-1">PDF, DOCX, JPG (Máx. 10MB)</p>
                             </div>
 
-                            {/* LISTA DE ARQUIVOS SELECIONADOS */}
                             {uploadedFiles.length > 0 && (
                               <div className="space-y-2 max-h-32 overflow-y-auto pr-1">
                                 <p className="text-xs font-bold text-slate-500 uppercase">Arquivos Selecionados:</p>
@@ -376,7 +580,6 @@ export function LegalCenter({ onClose, userName, userRole }: LegalCenterProps) {
                             </div>
                         </div>
                     </DialogContent>
-                    {/* ---------------------------------------------- */}
 
                   </Dialog>
                 </div>
@@ -429,6 +632,72 @@ export function LegalCenter({ onClose, userName, userRole }: LegalCenterProps) {
               </CardContent>
             </Card>
           </TabsContent>
+
+          {/* --- NOVA ABA: KANBAN DE PROCESSOS --- */}
+          <TabsContent value="processos" className="space-y-6 h-full">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-full">
+              {kanbanColumns.map((col) => (
+                <div 
+                  key={col.id} 
+                  className="bg-slate-100 rounded-lg p-4 flex flex-col h-full border border-slate-200"
+                  onDragOver={onDragOverKanban}
+                  onDrop={(e) => onDropKanban(e, col.id)}
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-bold text-slate-700 flex items-center gap-2">
+                      {col.id === 'analise' && <Clock className="w-4 h-4 text-amber-500" />}
+                      {col.id === 'juizo' && <Gavel className="w-4 h-4 text-blue-500" />}
+                      {col.id === 'concluido' && <CheckCircle2 className="w-4 h-4 text-green-500" />}
+                      {col.title}
+                    </h3>
+                    <Badge variant="secondary" className="bg-slate-200 text-slate-600">
+                      {col.items.length}
+                    </Badge>
+                  </div>
+                  
+                  <div className="space-y-3 flex-1">
+                    {col.items.map((item) => (
+                      <Card 
+                        key={item.id} 
+                        className="cursor-move hover:shadow-md transition-shadow border-l-4 border-l-transparent hover:border-l-blue-500"
+                        draggable
+                        onDragStart={(e) => onDragStart(e, item.id, col.id)}
+                      >
+                        <CardContent className="p-3">
+                          <div className="flex justify-between items-start mb-2">
+                            <Badge variant="outline" className={`text-[10px] px-1.5 py-0 ${
+                              item.priority === 'Alta' ? 'border-red-200 bg-red-50 text-red-700' :
+                              item.priority === 'Média' ? 'border-amber-200 bg-amber-50 text-amber-700' :
+                              'border-blue-200 bg-blue-50 text-blue-700'
+                            }`}>
+                              {item.priority}
+                            </Badge>
+                            <Button variant="ghost" size="icon" className="h-6 w-6 -mt-1 -mr-1">
+                              <MoreHorizontal className="w-3 h-3 text-slate-400" />
+                            </Button>
+                          </div>
+                          
+                          <h4 className="font-semibold text-sm text-slate-900 mb-1 leading-tight">{item.title}</h4>
+                          <p className="text-xs text-slate-500 mb-2 truncate">{item.number}</p>
+                          
+                          <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+                            <span className="text-xs font-medium text-slate-700">{item.value}</span>
+                            <span className="text-[10px] text-slate-400">{item.type}</span>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                    {col.items.length === 0 && (
+                      <div className="h-24 border-2 border-dashed border-slate-200 rounded-lg flex items-center justify-center text-slate-400 text-sm italic">
+                        Vazio
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </TabsContent>
+          {/* ------------------------------------- */}
 
           <TabsContent value="dossier" className="space-y-6">
             <Card className="bg-slate-900 border-slate-800 text-white print:hidden">
@@ -667,7 +936,6 @@ export function LegalCenter({ onClose, userName, userRole }: LegalCenterProps) {
             )}
           </TabsContent>
 
-          {/* ... (ABAS AUDIT E VERSIONS PERMANECEM IGUAIS) ... */}
           <TabsContent value="audit" className="space-y-4">
             <Card>
                 <CardHeader>
@@ -720,7 +988,7 @@ export function LegalCenter({ onClose, userName, userRole }: LegalCenterProps) {
 
         </Tabs>
 
-        {/* DIÁLOGO DE REAUTENTICAÇÃO (Para o Botão de Exportação) */}
+        {/* DIÁLOGO DE REAUTENTICAÇÃO */}
         <ReauthDialog 
             open={showExportReauth} 
             onCancel={() => setShowExportReauth(false)}
