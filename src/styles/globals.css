@@ -39,6 +39,18 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  /* Brand colors */
+  --brand-blue-50: #eef2ff;
+  --brand-blue-100: #e0e7ff;
+  --brand-blue-200: #c7d2fe;
+  --brand-blue-400: #60a5fa;
+  --brand-blue-500: #3b82f6;
+  --brand-blue-600: #2563eb;
+  --brand-blue-700: #1d4ed8;
+  --brand-blue-800: #1e40af;
+
+  --brand-radius: 0.5rem;
+  --container-max-width: 1200px;
 }
 
 .dark {
@@ -186,4 +198,28 @@
 
 html {
   font-size: var(--font-size);
+}
+
+/* Layout helpers */
+.app-container {
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Brand utility */
+.brand-bg {
+  background: linear-gradient(90deg, var(--brand-blue-500), var(--brand-blue-600));
+}
+
+/* Responsive tweaks for header and sidebar */
+@media (max-width: 768px) {
+  .hide-md { display: none; }
+  .header-search { display: none; }
+}
+
+@media (min-width: 769px) {
+  .mobile-only { display: none; }
 }

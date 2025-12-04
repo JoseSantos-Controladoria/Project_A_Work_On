@@ -78,13 +78,46 @@ export async function enviarMensagemParaIA(historicoMensagens: any[]) {
     ];
 
     const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo", 
+      model: "gpt-3.5-turbo",
       messages: messages,
       tools: tools,
-      tool_choice: "auto", 
+      tool_choice: "auto",
     });
 
-    return response.choices[0].message;
+    const choice = response.choices && response.choices[0];
+    const rawMessage = choice?.message || {};
+
+    // Normaliza o conteúdo (pode vir em formatos diferentes conforme a versão da SDK)
+    let content = "";
+    if (typeof rawMessage.content === "string") {
+      content = rawMessage.content;
+    } else if (Array.isArray(rawMessage.content)) {
+      // Alguns SDKs dividem o conteúdo em blocos
+      content = rawMessage.content.map((c: any) => (typeof c === "string" ? c : c?.text || "")).join("");
+    } else if (rawMessage.content && typeof rawMessage.content === "object") {
+      content = rawMessage.content.text || rawMessage.content?.parts?.join("") || "";
+    } else {
+      content = rawMessage?.text || "";
+    }
+
+    // Normaliza as chamadas de ferramenta (function/tool calls)
+    let tool_calls: any[] = [];
+    if (rawMessage.tool_calls && Array.isArray(rawMessage.tool_calls)) {
+      tool_calls = rawMessage.tool_calls;
+    } else if (rawMessage.function_call) {
+      tool_calls = [ { function: rawMessage.function_call } ];
+    } else if (choice?.function_call) {
+      tool_calls = [ { function: choice.function_call } ];
+    } else if (choice?.message?.function_call) {
+      tool_calls = [ { function: choice.message.function_call } ];
+    }
+
+    return {
+      role: rawMessage.role,
+      content,
+      tool_calls,
+      raw: rawMessage,
+    };
   } catch (error) {
     console.error("Erro na OpenAI:", error);
     throw error;
