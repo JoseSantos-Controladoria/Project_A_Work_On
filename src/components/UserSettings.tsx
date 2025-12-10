@@ -5,7 +5,7 @@ import { Switch } from "./ui/switch";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
 import { ArrowLeft, Save } from "lucide-react";
-import { departments, Department } from "./DashboardSidebar";
+import { departments } from "./DashboardSidebar";
 
 interface UserSettingsProps {
   selectedDepartments: string[];

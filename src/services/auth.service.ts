@@ -67,7 +67,7 @@ export class AuthService {
   /**
    * Verifies re-authentication for sensitive areas
    */
-  static async reauthenticate(email: string, password: string): Promise<boolean> {
+  static async reauthenticate(_email: string, password: string): Promise<boolean> {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     if (password.length === 0) {

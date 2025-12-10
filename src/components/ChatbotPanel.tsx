@@ -12,7 +12,7 @@ interface ChatbotPanelProps {
   onAction: (action: BotAction) => void; // Função para disparar a ação no App.tsx
 }
 
-export function ChatbotPanel({ onClose, userRole = "Colaborador", onAction }: ChatbotPanelProps) {
+export function ChatbotPanel({ onClose, userRole: _userRole = "Colaborador", onAction }: ChatbotPanelProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,

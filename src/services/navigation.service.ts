@@ -10,7 +10,7 @@ export class NavigationService {
   /**
    * Validates if a view transition is allowed
    */
-  static canNavigateToView(currentView: ViewType, targetView: ViewType): boolean {
+  static canNavigateToView(_currentView: ViewType, _targetView: ViewType): boolean {
     // Add any navigation rules here
     return true;
   }

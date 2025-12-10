@@ -1,25 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
-import { mockClients } from "@/data/mockData";
 import { Client } from "@/types";
 import { 
   ArrowLeft, BarChart2, ShoppingCart, 
-  Layers, AlertTriangle, Users, Search 
+  Layers, AlertTriangle, Users, Search, Loader2 
 } from "lucide-react";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Legend } from "recharts";
+import { api } from "@/services/api.service";
+import { toast } from "sonner";
 
 interface ClientCenterProps {
   onClose: () => void;
 }
 
 export function ClientCenter({ onClose }: ClientCenterProps) {
+  const [clients, setClients] = useState<Client[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Dados mockados para o gráfico de evolução (genérico para visualização)
+  // Dados mockados apenas para o gráfico (pois ainda não criamos endpoint de histórico detalhado)
   const evolutionData = [
     { name: 'Sem 1', realizado: 4000, meta: 4500 },
     { name: 'Sem 2', realizado: 3000, meta: 4500 },
@@ -27,9 +30,61 @@ export function ClientCenter({ onClose }: ClientCenterProps) {
     { name: 'Sem 4', realizado: 4800, meta: 4500 },
   ];
 
-  const filteredClients = mockClients.filter(c => 
+// --- BUSCA DADOS DO BACKEND ---
+  useEffect(() => {
+    async function fetchClients() {
+      try {
+        // 1. Busca o dado "achatado" do backend
+        const rawData = await api.clients.list();
+        
+        // 2. Transforma (Mapeia) para o formato que o Frontend espera (com KPIs aninhados)
+        const formattedData: Client[] = rawData.map((item: any) => ({
+          id: item.id,
+          name: item.name,
+          logo: item.logo,
+          segment: item.segment,
+          status: item.status as "Ativo" | "Inativo",
+          powerBiUrl: item.powerBiUrl,
+          lastUpdate: item.lastUpdate,
+          // Recriamos o objeto kpis aqui:
+          kpis: {
+            sellOut: item.sellOut,
+            shareOfShelf: item.shareOfShelf,
+            ruptura: item.ruptura,
+            visitas: item.visitas,
+            skusAtivos: item.skusAtivos
+          }
+        }));
+
+        setClients(formattedData);
+      } catch (error) {
+        console.error("Erro detalhado:", error); // Ajuda a ver no F12
+        toast.error("Erro ao carregar clientes", {
+          description: "Verifique se o backend está rodando na porta 3000."
+        });
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchClients();
+  }, []);
+
+  const filteredClients = clients.filter(c => 
     c.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // --- LOADING STATE ---
+  if (loading) {
+    return (
+      <div className="flex-1 flex items-center justify-center bg-slate-50 h-full">
+        <div className="text-center">
+          <Loader2 className="w-10 h-10 animate-spin text-blue-600 mx-auto mb-4" />
+          <p className="text-slate-500">Carregando carteira de clientes...</p>
+        </div>
+      </div>
+    );
+  }
 
   // --- VISÃO 1: LISTA DE CLIENTES ---
   if (!selectedClient) {
@@ -45,7 +100,7 @@ export function ClientCenter({ onClose }: ClientCenterProps) {
                 </Button>
                 <h1 className="text-2xl font-bold text-slate-900">Central do Cliente</h1>
               </div>
-              <p className="text-slate-600 ml-0 md:ml-0">Gestão de Trade Marketing e Performance</p>
+              <p className="text-slate-600 ml-0 md:ml-0">Gestão de Trade Marketing e Performance (Dados Reais)</p>
             </div>
             
             <div className="relative w-full md:w-72">
@@ -81,7 +136,7 @@ export function ClientCenter({ onClose }: ClientCenterProps) {
                 <CardContent className="flex-1 flex flex-col">
                   <div className="flex flex-col items-center text-center py-4 flex-1">
                     
-                    {/* --- LOGO ATUALIZADA --- */}
+                    {/* --- LOGO --- */}
                     <div className="w-24 h-24 bg-white rounded-lg border p-2 flex items-center justify-center shadow-sm mb-4 relative overflow-hidden aspect-square">
                         <img 
                           src={client.logo} 
@@ -90,12 +145,13 @@ export function ClientCenter({ onClose }: ClientCenterProps) {
                           onError={(e) => e.currentTarget.src='https://placehold.co/64?text=Logo'} 
                         />
                     </div>
-                    {/* ----------------------- */}
 
                     <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
                       {client.name}
                     </h3>
-                    <p className="text-xs text-slate-500 mt-1">Atualizado: {client.lastUpdate}</p>
+                    <p className="text-xs text-slate-500 mt-1">
+                        Atualizado: {new Date(client.lastUpdate).toLocaleDateString()}
+                    </p>
                   </div>
                   
                   <div className="mt-4 pt-4 border-t border-slate-100 flex justify-between text-sm">
@@ -115,13 +171,12 @@ export function ClientCenter({ onClose }: ClientCenterProps) {
                     </div>
                   </div>
 
-                  {/* --- BOTÃO POWER BI COM STOP PROPAGATION --- */}
                   <div className="mt-6 pt-2">
                     <Button 
                         variant="outline" 
                         className="w-full border-yellow-500 text-yellow-700 hover:bg-yellow-50 hover:text-yellow-800"
                         onClick={(e) => {
-                          e.stopPropagation(); // Impede que o clique abra o modal do cliente
+                          e.stopPropagation();
                           window.open(client.powerBiUrl, '_blank');
                         }}
                     >
@@ -129,7 +184,6 @@ export function ClientCenter({ onClose }: ClientCenterProps) {
                         Dashboard Power BI
                     </Button>
                   </div>
-                  {/* ------------------------------------------- */}
 
                 </CardContent>
               </Card>
@@ -140,7 +194,7 @@ export function ClientCenter({ onClose }: ClientCenterProps) {
     );
   }
 
-  // --- VISÃO 2: DASHBOARD DETALHADO DO CLIENTE ---
+  // --- VISÃO 2: DASHBOARD DETALHADO (Mantida Igual, usando selectedClient) ---
   return (
     <div className="flex-1 overflow-auto bg-slate-50 p-6">
       <div className="max-w-7xl mx-auto space-y-6">

@@ -15,7 +15,7 @@ export function parseMonth(filter?: string): string {
   const monthNum = parseInt(filter.replace(/\D/g, ""));
   
   if (!isNaN(monthNum) && monthNum >= 1 && monthNum <= 12) {
-    return MONTHS[monthNum - 1] || filter;
+    return MONTHS[monthNum - 1] ?? filter;
   }
 
   // Try to match month name
@@ -25,7 +25,7 @@ export function parseMonth(filter?: string): string {
   );
 
   if (monthIndex !== -1) {
-    return MONTHS[monthIndex];
+    return MONTHS[monthIndex] ?? filter;
   }
 
   return filter;
@@ -35,6 +35,6 @@ export function parseMonth(filter?: string): string {
  * Gets current month name
  */
 export function getCurrentMonth(): string {
-  return MONTHS[new Date().getMonth()];
+  return MONTHS[new Date().getMonth()] ?? "Atual";
 }
 

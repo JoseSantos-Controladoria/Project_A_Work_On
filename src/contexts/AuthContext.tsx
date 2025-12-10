@@ -4,7 +4,7 @@
  */
 
 import { createContext, useContext, useState, useCallback, ReactNode } from "react";
-import { User, UserRole } from "@/types";
+import { User } from "@/types";
 import { AuthService } from "@/services/auth.service";
 
 interface AuthContextType {

@@ -2,7 +2,7 @@ import OpenAI from "openai";
 
 
 const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+  apiKey: (import.meta as any).env.VITE_OPENAI_API_KEY,
   dangerouslyAllowBrowser: true,
 });
 
@@ -85,7 +85,7 @@ export async function enviarMensagemParaIA(historicoMensagens: any[]) {
     });
 
     const choice = response.choices && response.choices[0];
-    const rawMessage = choice?.message || {};
+    const rawMessage = (choice?.message || {}) as any;
 
     // Normaliza o conteúdo (pode vir em formatos diferentes conforme a versão da SDK)
     let content = "";
@@ -106,10 +106,10 @@ export async function enviarMensagemParaIA(historicoMensagens: any[]) {
       tool_calls = rawMessage.tool_calls;
     } else if (rawMessage.function_call) {
       tool_calls = [ { function: rawMessage.function_call } ];
-    } else if (choice?.function_call) {
-      tool_calls = [ { function: choice.function_call } ];
-    } else if (choice?.message?.function_call) {
-      tool_calls = [ { function: choice.message.function_call } ];
+    } else if ((choice as any)?.function_call) {
+      tool_calls = [ { function: (choice as any).function_call } ];
+    } else if ((choice as any)?.message?.function_call) {
+      tool_calls = [ { function: (choice as any).message.function_call } ];
     }
 
     return {

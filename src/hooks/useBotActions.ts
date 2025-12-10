@@ -10,12 +10,12 @@ import { NavigationService } from "@/services/navigation.service";
 import { parseMonth } from "@/utils/month.utils";
 
 export function useBotActions() {
-  const { user, hasPermission, isLegalAuthenticated, setLegalAuthenticated } = useAuth();
+  const { user, hasPermission, isLegalAuthenticated } = useAuth();
   const {
     setCurrentView,
     selectedDepartments,
-    setSelectedDepartments,
-    setDataModalOpenState,
+    updateDepartments,
+    setDataModalOpen,
     setDataModalContent,
     setShowReauthDialog,
   } = useApp();
@@ -33,7 +33,7 @@ export function useBotActions() {
         } else if (action.payload.view === "financeiro") {
           setCurrentView("dashboard");
           if (!selectedDepartments.includes("financeiro")) {
-            setSelectedDepartments((prev) => [...prev, "financeiro"]);
+            updateDepartments([...selectedDepartments, "financeiro"]);
           }
         } else {
           const normalizedView = NavigationService.normalizeView(
@@ -52,7 +52,7 @@ export function useBotActions() {
             title: action.payload.title || "Análise Financeira",
             data: { type: "financial", month: monthName },
           });
-          setDataModalOpenState(true);
+          setDataModalOpen(true);
         }
 
         // Legal report modal
@@ -66,7 +66,7 @@ export function useBotActions() {
             title: action.payload.title || "Jurídico",
             data: { type: "legal" },
           });
-          setDataModalOpenState(true);
+          setDataModalOpen(true);
         }
       }
     },
@@ -76,8 +76,8 @@ export function useBotActions() {
       isLegalAuthenticated,
       selectedDepartments,
       setCurrentView,
-      setSelectedDepartments,
-      setDataModalOpenState,
+      updateDepartments,
+      setDataModalOpen,
       setDataModalContent,
       setShowReauthDialog,
     ]
